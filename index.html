@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Hori: Eat The Shadow</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="gameCanvas"></canvas>
+
+  <div id="ui" class="ui mode-vert">
+    <div id="hud" class="hud hidden">
+      <div class="hud-center-group">
+        <div id="scoreBadge" class="mode-badge score">HORI <strong id="score">0</strong></div>
+        <div class="mode-column">
+          <div id="modeBadge" class="mode-badge">DİKEY MOD</div>
+          <button id="pauseBtn" class="pause-btn hidden" aria-label="Duraklat">Ⅱ</button>
+        </div>
+        <div id="bestBadge" class="mode-badge best">REKOR <strong id="best">0</strong></div>
+      </div>
+    </div>
+
+    <section id="mainMenu" class="screen active main-screen">
+      <div class="menu-topline minimal-brand">
+        <span class="version-pill soft">HORI</span>
+      </div>
+
+      <div class="hero-wrap">
+        <div class="hero-orb"></div>
+        <div class="hero-shadow"></div>
+      </div>
+
+      <h1>HORI:<br><span>EAT THE SHADOW</span></h1>
+      <p class="subtitle">Hori topla. Gölgeden kaç.</p>
+      <div class="hori-wallet-pill">TOPLAM HORI <strong id="horiWallet">0</strong></div>
+
+      <button id="quickPlayBtn" class="primary-btn main-play">
+        <span>OYNA</span>
+        <small id="quickPlaySub">SONSUZ EVRİM</small>
+      </button>
+
+      <button id="modeMenuBtn" class="featured-mode-btn">
+        <b>MOD SEÇİMİ</b>
+        <small>Sonsuz Evrim ve Gölge Kurulumu</small>
+      </button>
+
+      <div class="menu-grid">
+        <button id="marketMenuBtn" class="ghost-btn">MARKET</button>
+        <button id="settingsMenuBtn" class="ghost-btn">AYARLAR</button>
+      </div>
+
+      <div class="selected-strip">
+        <span>SEÇİLİ MOD</span>
+        <b id="selectedModeText">DİKEY MOD</b>
+      </div>
+    </section>
+
+    <section id="modeMenu" class="screen mode-screen">
+      <h2>MOD SEÇİMİ</h2>
+      <p class="subtitle compact">Sonsuz Evrim oyna veya kendi gölge kurulumunu yap.</p>
+
+      <button class="mode-card featured selected" data-mode="hori_evolution">
+        <span>SONSUZ EVRİM</span>
+        <small>Gölge evrimleşir, kaçışın zorlaşır</small>
+      </button>
+
+      <div class="mode-section-title">TEMEL MODLAR</div>
+
+      <button class="mode-card" data-mode="vert">
+        <span>DİKEY MOD</span>
+        <small>Dikey ekran · Alt orta joystick · saf kaçış</small>
+      </button>
+
+      <button class="mode-card" data-mode="hori">
+        <span>YATAY MOD</span>
+        <small>Yatay ekran · Sol joystick · sağ dash butonu</small>
+      </button>
+
+      <div class="mode-section-title">GÖLGE KURULUMU</div>
+
+      <div class="lab-panel">
+        <div class="lab-label">EKRAN / KONTROL</div>
+        <div class="lab-toggle-row">
+          <button class="lab-orientation selected" data-lab-orientation="landscape">YATAY</button>
+          <button class="lab-orientation" data-lab-orientation="portrait">DİKEY</button>
+        </div>
+
+        <div class="lab-label">GÖLGE GÜÇLERİ</div>
+        <div class="lab-power-grid">
+          <label><input type="checkbox" class="lab-power" value="rage" checked> <span>Rage</span></label>
+          <label><input type="checkbox" class="lab-power" value="zone" checked> <span>Zone</span></label>
+          <label><input type="checkbox" class="lab-power" value="lunge"> <span>Lunge</span></label>
+          <label><input type="checkbox" class="lab-power" value="hunter"> <span>Hunter</span></label>
+          <label><input type="checkbox" class="lab-power" value="trap"> <span>Trap</span></label>
+        </div>
+
+        <button id="applyShadowLabBtn" class="primary-btn lab-apply">KURULUMU SEÇ</button>
+        <p id="labSummary" class="lab-summary">YATAY · RAGE + ZONE</p>
+      </div>
+
+
+      <button id="backFromModes" class="ghost-btn wide">GERİ</button>
+    </section>
+
+
+    <section id="marketMenu" class="screen market-screen">
+      <h2>MARKET</h2>
+      <p class="subtitle compact">Hori ile görünüş aç. Güç satışı yok, sadece kozmetik.</p>
+
+      <div class="market-wallet">TOPLAM HORI <strong id="marketHori">0</strong></div>
+
+      <div class="market-section-title">OYUNCU RENGİ</div>
+      <div id="skinGrid" class="skin-grid"></div>
+
+      <button id="backFromMarket" class="ghost-btn wide">GERİ</button>
+    </section>
+
+    <section id="settingsMenu" class="screen">
+      <h2>AYARLAR</h2>
+      <div class="setting-row">
+        <div>
+          <b>Ses</b>
+          <small>Efekt sesleri için hazır ayar</small>
+        </div>
+        <button id="soundToggle" class="pill-btn">AÇIK</button>
+      </div>
+      <div class="setting-row">
+        <div>
+          <b>Titreşim</b>
+          <small>Mobilde hasar ve dash hissi</small>
+        </div>
+        <button id="vibrationToggle" class="pill-btn">AÇIK</button>
+      </div>
+      <div class="setting-row joystick-setting-row mobile-only-control">
+        <div>
+          <b>Joystick Tipi</b>
+          <small>Sabit konum veya dokunduğun yerde serbest joystick</small>
+        </div>
+        <div class="segmented-control joystick-toggle" role="group" aria-label="Joystick tipi">
+          <span class="seg-thumb" aria-hidden="true"></span>
+          <button id="joystickFixedBtn" class="seg-btn selected" type="button">SABİT</button>
+          <button id="joystickFreeBtn" class="seg-btn" type="button">SERBEST</button>
+        </div>
+      </div>
+      <button id="backFromSettings" class="ghost-btn wide">GERİ</button>
+    </section>
+
+    <section id="pauseMenu" class="screen pause-screen pause-redesign">
+      <div class="pause-header">
+        <div>
+          <span class="pause-kicker">OYUN DURDU</span>
+          <h2>DURAKLATILDI</h2>
+        </div>
+      </div>
+
+      <div class="pause-layout">
+        <div class="pause-left">
+          <div class="pause-panel-title">AKTİF GÖLGE GÜÇLERİ</div>
+          <div id="pauseShadowInfo" class="pause-shadow-info">
+            <div class="pause-empty">Aktif gölge bilgisi hazırlanıyor...</div>
+          </div>
+        </div>
+
+        <aside class="pause-right">
+          <div class="pause-panel-title">AYARLAR</div>
+
+          <div class="pause-setting-row">
+            <span>Ses</span>
+            <button id="pauseSoundToggle" class="pill-btn">AÇIK</button>
+          </div>
+
+          <div class="pause-setting-row">
+            <span>Titreşim</span>
+            <button id="pauseVibrationToggle" class="pill-btn">AÇIK</button>
+          </div>
+
+          <div class="pause-joystick-row mobile-only-control">
+            <span>Joystick</span>
+            <div class="segmented-control pause-segmented joystick-toggle" role="group" aria-label="Pause joystick tipi">
+              <span class="seg-thumb" aria-hidden="true"></span>
+              <button id="pauseJoystickFixedBtn" class="seg-btn selected" type="button">SABİT</button>
+              <button id="pauseJoystickFreeBtn" class="seg-btn" type="button">SERBEST</button>
+            </div>
+          </div>
+
+          <button id="resumeBtn" class="primary-btn">DEVAM</button>
+          <button id="quitBtn" class="ghost-btn wide">ANA MENÜ</button>
+
+          <p class="pause-side-note">P / ESC ile devam et</p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="gameOverPanel" class="screen small">
+      <h2>YAKALANDIN</h2>
+      <p id="deathReason" class="subtitle compact">Mor gölge sana temas etti.</p>
+      <div class="result-score" id="finalScore">Hori: 0</div>
+      <p id="deathTip" class="death-tip">İpucu: Dash’i panik anına sakla.</p>
+      <button id="retryBtn" class="primary-btn">TEKRAR DENE</button>
+      <button id="menuBtn" class="ghost-btn wide">ANA MENÜ</button>
+    </section>
+
+    <div id="joystick" class="joystick hidden" aria-label="Hareket joystick">
+      <div class="joystick-base">
+        <div id="joystickKnob" class="joystick-knob"></div>
+      </div>
+    </div>
+
+    <button id="dashBtn" class="dash-btn hidden" aria-label="Dash">
+      <span>DASH</span>
+      <i id="dashCooldown"></i>
+    </button>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
