@@ -2231,3 +2231,269 @@ button:active {
   position: relative;
   z-index: 2;
 }
+
+
+/* Clean Final Menu Rebuild - real HTML menu, not overlay */
+.final-clean-menu {
+  width: min(92vw, 430px);
+  padding: 28px 22px 24px;
+}
+
+.final-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.final-hero-orb {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 30%, #fff7be 0 10%, #ffe15c 14% 42%, #ff8a00 68%, rgba(255, 138, 0, 0) 72%);
+  box-shadow: 0 0 32px rgba(255, 225, 92, 0.68), 0 0 86px rgba(255, 138, 0, 0.25);
+  animation: pulseOrb 1.7s ease-in-out infinite;
+}
+
+.final-title-block {
+  text-align: left;
+}
+
+.final-kicker {
+  display: block;
+  margin-bottom: 4px;
+  color: #ffe15c;
+  font-size: 13px;
+  font-weight: 950;
+  letter-spacing: 4px;
+}
+
+.final-title-block h1 {
+  margin: 0;
+  font-size: clamp(30px, 8vw, 46px);
+  letter-spacing: 0;
+  line-height: 0.95;
+}
+
+.final-subtitle {
+  margin-bottom: 14px;
+}
+
+.final-status-card {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 14px;
+  padding: 14px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 225, 92, 0.18);
+  background: rgba(255, 225, 92, 0.07);
+  text-align: left;
+}
+
+.final-status-card span {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: 2px;
+}
+
+.final-status-card b {
+  color: #ffe15c;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+.final-status-card small {
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.35;
+}
+
+.final-wallet {
+  margin: 0 0 14px;
+}
+
+.final-play-btn {
+  min-height: 62px;
+  font-size: 18px;
+}
+
+.final-menu-grid {
+  margin-top: 12px;
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+  .final-clean-menu {
+    width: min(92vw, 680px);
+    padding: 18px;
+  }
+
+  .final-clean-menu {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 12px 18px;
+    align-items: center;
+  }
+
+  .final-brand-row,
+  .final-subtitle,
+  .final-status-card,
+  .final-wallet {
+    grid-column: 1;
+  }
+
+  .final-play-btn,
+  .final-menu-grid {
+    grid-column: 2;
+  }
+
+  .final-play-btn {
+    grid-row: 1 / span 2;
+    align-self: end;
+  }
+
+  .final-menu-grid {
+    grid-row: 3 / span 2;
+    align-self: start;
+  }
+}
+
+
+/* Final Hard Clean Menu */
+.final-clean-menu {
+  width: min(92vw, 430px);
+  padding: 28px 22px 24px;
+}
+
+.final-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.final-hero-orb {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 30%, #fff7be 0 10%, #ffe15c 14% 42%, #ff8a00 68%, rgba(255, 138, 0, 0) 72%);
+  box-shadow: 0 0 32px rgba(255, 225, 92, 0.68), 0 0 86px rgba(255, 138, 0, 0.25);
+  animation: pulseOrb 1.7s ease-in-out infinite;
+}
+
+.final-title-block {
+  text-align: left;
+}
+
+.final-kicker {
+  display: block;
+  margin-bottom: 4px;
+  color: #ffe15c;
+  font-size: 13px;
+  font-weight: 950;
+  letter-spacing: 4px;
+}
+
+.final-title-block h1 {
+  margin: 0;
+  font-size: clamp(30px, 8vw, 46px);
+  letter-spacing: 0;
+  line-height: 0.95;
+}
+
+.final-subtitle {
+  margin-bottom: 14px;
+}
+
+.final-status-card {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 14px;
+  padding: 14px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 225, 92, 0.18);
+  background: rgba(255, 225, 92, 0.07);
+  text-align: left;
+}
+
+.final-status-card span {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: 2px;
+}
+
+.final-status-card b {
+  color: #ffe15c;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+.final-status-card small {
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.35;
+}
+
+.final-wallet {
+  margin: 0 0 14px;
+}
+
+.final-play-btn {
+  min-height: 62px;
+  font-size: 18px;
+}
+
+.final-menu-grid {
+  margin-top: 12px;
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+  .final-clean-menu {
+    width: min(92vw, 680px);
+    padding: 18px;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 12px 18px;
+    align-items: center;
+  }
+
+  .final-brand-row,
+  .final-subtitle,
+  .final-status-card,
+  .final-wallet {
+    grid-column: 1;
+  }
+
+  .final-play-btn,
+  .final-menu-grid {
+    grid-column: 2;
+  }
+
+  .final-play-btn {
+    grid-row: 1 / span 2;
+    align-self: end;
+  }
+
+  .final-menu-grid {
+    grid-row: 3 / span 2;
+    align-self: start;
+  }
+}
+
+
+/* Mock Shadow Test */
+.mock-test-btn {
+  margin-top: 10px;
+  border-color: rgba(255, 45, 85, 0.36);
+  color: #ffb8c6;
+}
+
+.mock-test-note {
+  margin: 8px 0 0;
+  font-size: 12px;
+  opacity: 0.58;
+  text-align: center;
+}

@@ -8,7 +8,6 @@ const bestEl = document.getElementById('best');
 const modeBadge = document.getElementById('modeBadge');
 const selectedModeText = document.getElementById('selectedModeText');
 const mainMenu = document.getElementById('mainMenu');
-const modeMenu = document.getElementById('modeMenu');
 const settingsMenu = document.getElementById('settingsMenu');
 const marketMenu = document.getElementById('marketMenu');
 const pauseMenu = document.getElementById('pauseMenu');
@@ -16,16 +15,14 @@ const gameOverPanel = document.getElementById('gameOverPanel');
 const finalScoreEl = document.getElementById('finalScore');
 const deathReasonEl = document.getElementById('deathReason');
 const deathTipEl = document.getElementById('deathTip');
-const quickPlayBtn = document.getElementById('quickPlayBtn');
+const quickPlayBtn = document.getElementById('quickPlayBtn') || document.getElementById('playBtn') || document.getElementById('startBtn');
 const quickPlaySub = document.getElementById('quickPlaySub');
-const modeMenuBtn = document.getElementById('modeMenuBtn');
-const settingsMenuBtn = document.getElementById('settingsMenuBtn');
-const marketMenuBtn = document.getElementById('marketMenuBtn');
+const settingsMenuBtn = document.getElementById('settingsMenuBtn') || document.getElementById('settingsBtn');
+const marketMenuBtn = document.getElementById('marketMenuBtn') || document.getElementById('marketBtn') || document.getElementById('shopBtn');
 const backFromMarket = document.getElementById('backFromMarket');
 const horiWalletEl = document.getElementById('horiWallet');
 const marketHoriEl = document.getElementById('marketHori');
 const skinGrid = document.getElementById('skinGrid');
-const backFromModes = document.getElementById('backFromModes');
 const backFromSettings = document.getElementById('backFromSettings');
 const retryBtn = document.getElementById('retryBtn');
 const menuBtn = document.getElementById('menuBtn');
@@ -45,8 +42,6 @@ const joystickFixedBtn = document.getElementById('joystickFixedBtn');
 const joystickFreeBtn = document.getElementById('joystickFreeBtn');
 const pauseJoystickFixedBtn = document.getElementById('pauseJoystickFixedBtn');
 const pauseJoystickFreeBtn = document.getElementById('pauseJoystickFreeBtn');
-const applyShadowLabBtn = document.getElementById('applyShadowLabBtn');
-const labSummary = document.getElementById('labSummary');
 
 let width = 0;
 let height = 0;
@@ -62,102 +57,20 @@ const SHADOW_BASE_RADIUS = 13;
 const SHADOW_CLASSIC_MAX_RADIUS = 23;
 const SHADOW_LUNGE_MAX_RADIUS = 25;
 const SHADOW_RAGE_MAX_RADIUS = 30;
-const SHADOW_PRESSURE_MAX_RADIUS = 27;
-const SHADOW_HUNT_MAX_RADIUS = 29;
 const SHADOW_HUNTER_MAX_RADIUS = 31;
 const DANGER_BASE_DISTANCE = 22;
 const DANGER_LUNGE_DISTANCE = 24;
 const DANGER_RAGE_MAX_DISTANCE = 36;
-const DANGER_PRESSURE_MAX_DISTANCE = 34;
-const DANGER_HUNT_MAX_DISTANCE = 38;
 const DANGER_HUNTER_MAX_DISTANCE = 38;
 const MIRROR_DURATION_FRAMES = 420; // 7 seconds at ~60 FPS
-const ZONE_POISON_FRAMES = 60; // 1 second before mirror controls
-const TRAP_DASH_LOCK_FRAMES = 600; // 10 seconds at ~60 FPS
-const TRAP_SLOW_FRAMES = 3600; // 60 seconds at ~60 FPS
+const ZONE_POISON_FRAMES = 60; // ters kontrol başlamadan önce yaklaşık 1 saniye
+const TRAP_DASH_LOCK_FRAMES = 600; // yaklaşık 10 saniye
+const TRAP_SLOW_FRAMES = 3600; // yaklaşık 60 saniye
 const MAX_SHADOW_TRAPS = 25;
 const TRAP_EVERY_LIGHTS = 6;
 const MAX_TRAP_SLOW_STACKS = 4;
 
 const MODS = {
-  vert: {
-    id: 'vert',
-    name: 'DİKEY MOD',
-    orientation: 'portrait',
-    joystick: 'bottom-center',
-    dash: false,
-    polish: true,
-    playerStartX: 0.5,
-    playerStartY: 0.52,
-    targetPadZones: ['joystick'],
-    bestKey: 'ets_best_vert',
-  },
-  hori: {
-    id: 'hori',
-    name: 'YATAY MOD',
-    orientation: 'landscape',
-    joystick: 'left-bottom',
-    dash: true,
-    polish: true,
-    shadowMode: 'classic',
-    playerStartX: 0.5,
-    playerStartY: 0.5,
-    targetPadZones: ['joystick', 'dash'],
-    bestKey: 'ets_best_hori',
-  },
-  hori_rage: {
-    id: 'hori_rage',
-    name: 'YATAY GÖLGE RAGE',
-    orientation: 'landscape',
-    joystick: 'left-bottom',
-    dash: true,
-    polish: true,
-    shadowMode: 'rage',
-    playerStartX: 0.5,
-    playerStartY: 0.5,
-    targetPadZones: ['joystick', 'dash'],
-    bestKey: 'ets_best_hori_rage',
-  },
-  hori_lunge: {
-    id: 'hori_lunge',
-    name: 'YATAY GÖLGE LUNGE',
-    orientation: 'landscape',
-    joystick: 'left-bottom',
-    dash: true,
-    polish: true,
-    shadowMode: 'lunge',
-    playerStartX: 0.5,
-    playerStartY: 0.5,
-    targetPadZones: ['joystick', 'dash'],
-    bestKey: 'ets_best_hori_lunge',
-  },
-
-  hori_hunter: {
-    id: 'hori_hunter',
-    name: 'YATAY GÖLGE HUNTER',
-    orientation: 'landscape',
-    joystick: 'left-bottom',
-    dash: true,
-    polish: true,
-    shadowMode: 'hunter',
-    playerStartX: 0.5,
-    playerStartY: 0.5,
-    targetPadZones: ['joystick', 'dash'],
-    bestKey: 'ets_best_hori_hunter',
-  },
-  hori_zone: {
-    id: 'hori_zone',
-    name: 'YATAY GÖLGE ZONE',
-    orientation: 'landscape',
-    joystick: 'left-bottom',
-    dash: true,
-    polish: true,
-    shadowMode: 'zone',
-    playerStartX: 0.5,
-    playerStartY: 0.5,
-    targetPadZones: ['joystick', 'dash'],
-    bestKey: 'ets_best_hori_zone',
-  },
   hori_evolution: {
     id: 'hori_evolution',
     name: 'SONSUZ EVRİM',
@@ -171,19 +84,6 @@ const MODS = {
     targetPadZones: ['joystick', 'dash'],
     bestKey: 'ets_best_hori_evolution',
   },
-  lab_custom: {
-    id: 'lab_custom',
-    name: 'YATAY GÖLGE KURULUMU',
-    orientation: 'landscape',
-    joystick: 'left-bottom',
-    dash: true,
-    polish: true,
-    shadowMode: 'custom',
-    playerStartX: 0.5,
-    playerStartY: 0.5,
-    targetPadZones: ['joystick', 'dash'],
-    bestKey: 'ets_best_lab_custom',
-  },
 };
 
 const settings = {
@@ -193,32 +93,8 @@ const settings = {
   joystickMode: localStorage.getItem('ets_joystick_mode') || 'fixed',
 };
 
-const ALLOWED_SHADOW_POWERS = ['rage', 'zone', 'lunge', 'hunter', 'trap'];
-
-const labConfig = {
-  orientation: localStorage.getItem('ets_lab_orientation') || 'landscape',
-  powers: JSON.parse(localStorage.getItem('ets_lab_powers') || '["rage","zone"]').filter(p => ALLOWED_SHADOW_POWERS.includes(p)),
-};
-
-function saveLabConfig() {
-  localStorage.setItem('ets_lab_orientation', labConfig.orientation);
-  localStorage.setItem('ets_lab_powers', JSON.stringify(labConfig.powers));
-}
-
-function updateLabModeFromConfig() {
-  const isLandscape = labConfig.orientation === 'landscape';
-  MODS.lab_custom.name = `${isLandscape ? 'YATAY' : 'DİKEY'} GÖLGE KURULUMU`;
-  MODS.lab_custom.orientation = isLandscape ? 'landscape' : 'portrait';
-  MODS.lab_custom.joystick = isLandscape ? 'left-bottom' : 'bottom-center';
-  MODS.lab_custom.dash = isLandscape;
-  MODS.lab_custom.targetPadZones = isLandscape ? ['joystick', 'dash'] : ['joystick'];
-  MODS.lab_custom.bestKey = `ets_best_lab_${labConfig.orientation}_${labConfig.powers.join('_') || 'classic'}`;
-}
-
-updateLabModeFromConfig();
-let savedModeId = localStorage.getItem('ets_mode') || 'hori_evolution';
-if (['hori_pressure', 'hori_hunt'].includes(savedModeId)) savedModeId = 'hori_evolution';
-let currentMode = MODS[savedModeId] || MODS.hori_evolution;
+let savedModeId = 'hori_evolution';
+let currentMode = MODS.hori_evolution;
 
 const GAME = {
   state: 'menu',
@@ -233,11 +109,6 @@ const GAME = {
   rageBanner: 0,
   rageLevel: 0,
   lungeBanner: 0,
-  pressureBanner: 0,
-  pressurePulse: 0,
-  huntBanner: 0,
-  huntTimer: 0,
-  huntLevel: 0,
   hunterBanner: 0,
   hunterFocus: 0,
   hunterConfused: 0,
@@ -254,6 +125,9 @@ const GAME = {
   evolutionBanner: 0,
   evolutionLevel: 0,
   evolutionTitle: '',
+  mockTest: false,
+  mockCountdown: 0,
+  lastRunWasMock: false,
 };
 
 const NOTIFY = {
@@ -370,6 +244,29 @@ function currentSkin() {
 }
 
 
+
+function drawMockCountdownOverlay() {
+  if (GAME.state !== 'countdown' || !GAME.mockTest) return;
+  const left = typeof camera !== 'undefined' ? camera.x : 0;
+  const top = typeof camera !== 'undefined' ? camera.y : 0;
+  const n = Math.max(1, Math.ceil(GAME.mockCountdown / 60));
+  ctx.save();
+  ctx.fillStyle = 'rgba(0,0,0,0.42)';
+  ctx.fillRect(left, top, width, height);
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.font = '900 86px Inter, Arial, sans-serif';
+  ctx.lineWidth = 8;
+  ctx.strokeStyle = 'rgba(0,0,0,0.55)';
+  ctx.fillStyle = '#ffe15c';
+  ctx.strokeText(String(n), left + width / 2, top + height / 2 - 14);
+  ctx.fillText(String(n), left + width / 2, top + height / 2 - 14);
+  ctx.font = '900 18px Inter, Arial, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.86)';
+  ctx.fillText('MOCK TEST BAŞLIYOR', left + width / 2, top + height / 2 + 58);
+  ctx.restore();
+}
+
 function drawCanvasHoriPlayer() {
   const skin = currentSkin ? currentSkin() : { outer: '#ffe15c', inner: '#ffffff', glow: '#ffef8a' };
   const invulnPulse = player.invuln > 0 ? Math.sin(GAME.time * 0.8) * 0.25 + 0.75 : 1;
@@ -483,9 +380,6 @@ const shadow = {
   lungeOffsetX: 0,
   lungeOffsetY: 0,
   lungePower: 92,
-  pressureGuard: 0,
-  pressureGuardRadius: 74,
-  pressureBoost: 0,
   hunterX: 0,
   hunterY: 0,
   hunterVX: 0,
@@ -540,26 +434,24 @@ function beep(freq = 440, duration = 0.055, type = 'sine', volume = 0.035) {
 }
 
 function showScreen(screen) {
-  [mainMenu, modeMenu, marketMenu, settingsMenu, pauseMenu, gameOverPanel].filter(Boolean).forEach(el => el.classList.remove('active'));
+  [mainMenu, marketMenu, settingsMenu, pauseMenu, gameOverPanel]
+    .filter(Boolean)
+    .forEach(el => el.classList.remove('active'));
   if (screen) screen.classList.add('active');
 }
 
 function setMode(modeId) {
-  if (modeId === 'lab_custom') updateLabModeFromConfig();
-  currentMode = MODS[modeId] || MODS.vert;
+  currentMode = MODS.hori_evolution;
   localStorage.setItem('ets_mode', currentMode.id);
-  ui.classList.toggle('mode-vert', currentMode.orientation === 'portrait');
-  ui.classList.toggle('mode-hori', currentMode.orientation === 'landscape');
-  modeBadge.textContent = currentMode.name;
-  selectedModeText.textContent = currentMode.name;
-  if (quickPlaySub) quickPlaySub.textContent = currentMode.name;
-  document.querySelectorAll('.mode-card').forEach(btn => {
-    btn.classList.toggle('selected', btn.dataset.mode === currentMode.id);
-  });
+  ui.classList.remove('mode-vert');
+  ui.classList.add('mode-hori');
+  if (modeBadge) modeBadge.textContent = currentMode.name;
+  if (selectedModeText) selectedModeText.textContent = currentMode.name;
+  if (quickPlaySub) quickPlaySub.textContent = 'Gölge zamanla güçlenir. Hayatta kalabildiğin kadar kal.';
   updateWorldSize();
   updateCamera();
   GAME.best = bestForMode();
-  bestEl.textContent = GAME.best;
+  if (bestEl) bestEl.textContent = GAME.best;
   updateJoystickCenter();
 }
 
@@ -699,22 +591,18 @@ async function toggleFullscreenMode() {
 
 function resetGame() {
   resize();
+  const wasMockTest = !!GAME.mockTest;
   GAME.state = 'playing';
-  GAME.score = 0;
+  GAME.score = wasMockTest ? 90 : 0;
   GAME.time = 0;
   GAME.shake = 0;
   GAME.flash = 0;
   GAME.nearDanger = 0;
-  GAME.tutorialTimer = currentMode.polish ? (currentMode.shadowMode === 'custom' ? 480 : 300) : 0;
+  GAME.tutorialTimer = currentMode.polish ? 300 : 0;
   GAME.warningTick = 0;
   GAME.rageBanner = 0;
   GAME.rageLevel = 0;
   GAME.lungeBanner = 0;
-  GAME.pressureBanner = 0;
-  GAME.pressurePulse = 0;
-  GAME.huntBanner = 0;
-  GAME.huntTimer = 0;
-  GAME.huntLevel = 0;
   GAME.hunterBanner = 0;
   GAME.hunterFocus = 0;
   GAME.hunterConfused = 0;
@@ -731,10 +619,17 @@ function resetGame() {
   GAME.evolutionBanner = 0;
   GAME.evolutionLevel = 0;
   GAME.evolutionTitle = '';
+  GAME.mockTest = wasMockTest;
+  if (GAME.mockTest) {
+    GAME.evolutionLevel = 6;
+    GAME.rageLevel = 4;
+    GAME.evolutionBanner = 120;
+    GAME.evolutionTitle = 'MOCK TEST: TÜM GÖLGELER AÇIK';
+  }
   clearNotify();
   GAME.best = bestForMode();
 
-  scoreEl.textContent = '0';
+  scoreEl.textContent = String(GAME.score);
   bestEl.textContent = GAME.best;
   updateEconomyUI();
   hud.classList.remove('hidden');
@@ -771,9 +666,6 @@ function resetGame() {
   shadow.lungeOffsetX = 0;
   shadow.lungeOffsetY = 0;
   shadow.lungePower = 92;
-  shadow.pressureGuard = 0;
-  shadow.pressureGuardRadius = 74;
-  shadow.pressureBoost = 0;
   shadow.hunterX = player.x - 120;
   shadow.hunterY = player.y;
   shadow.hunterVX = 0;
@@ -810,6 +702,9 @@ function resetGame() {
 }
 
 function returnToMenu() {
+  GAME.mockTest = false;
+  GAME.mockCountdown = 0;
+  GAME.lastRunWasMock = false;
   GAME.state = 'menu';
   hud.classList.add('hidden');
   pauseBtn.classList.add('hidden');
@@ -831,7 +726,7 @@ function deathTipForReason(reason = '') {
   if (text.includes('mirror') || text.includes('ters')) return 'İpucu: Mor izden hızlı çık, sayaç dolmasın.';
   if (text.includes('zone') || text.includes('mor iz')) return 'İpucu: Mor izleri kesmek yerine çevresinden dolaş.';
   if (text.includes('lunge')) return 'İpucu: Kırmızı uyarıda yön değiştir veya dash at.';
-  if (text.includes('hunter')) return 'İpucu: Hori’ye düz gitme, kısa fake rota çiz.';
+  if (text.includes('hunter')) return 'İpucu: Hori’ye düz gitme, kısa yanıltma rotası çiz.';
   return 'İpucu: Dash’i sona sakla, düz kaçma.';
 }
 
@@ -1011,7 +906,7 @@ function dropShadowTrap() {
   while (shadowTraps.length > MAX_SHADOW_TRAPS) shadowTraps.shift();
 
   createBurst(x, y, '#ffe15c', 12);
-  notify('TRAP', 'Sahte ışık oluştu', '#ffe15c', 54, 3);
+  notify('SAHTE HORİ', 'Sahte ışık oluştu', '#ffe15c', 54, 3);
 }
 
 function triggerShadowTrap(index) {
@@ -1026,7 +921,7 @@ function triggerShadowTrap(index) {
   GAME.flash = Math.max(GAME.flash, 0.35);
   GAME.shake = Math.max(GAME.shake, 12);
   createBurst(trap.x, trap.y, '#b74cff', 34);
-  notify('TRAP', `Dash kilitli · -%${trapSlowPercent()} hız`, '#ff2d55', 86, 5);
+  notify('SAHTE HORİ', `Atılma kilitli · -%${trapSlowPercent()} hız`, '#ff2d55', 86, 5);
   beep(105, 0.16, 'sawtooth', 0.055);
   vibrate([40, 24, 62]);
   shadowTraps.splice(index, 1);
@@ -1055,6 +950,7 @@ function isEvolutionMode() {
 }
 
 function evolutionLevelForScore(score) {
+  if (GAME.mockTest) return 6;
   if (!isEvolutionMode()) return 0;
   if (score >= 85) return 6;
   if (score >= 70) return 5;
@@ -1066,6 +962,7 @@ function evolutionLevelForScore(score) {
 }
 
 function hasEvolutionPower(power) {
+  if (GAME.mockTest) return ['rage', 'zone', 'lunge', 'hunter', 'trap'].includes(power);
   if (!isEvolutionMode()) return false;
   const thresholds = {
     rage: 10,
@@ -1078,46 +975,22 @@ function hasEvolutionPower(power) {
 }
 
 function shadowHas(power) {
-  if (power === 'pressure' || power === 'hunt') return false;
-  return currentMode.shadowMode === power || hasEvolutionPower(power) || (currentMode.shadowMode === 'custom' && labConfig.powers.includes(power));
+  return hasEvolutionPower(power);
 }
 
 function shadowPowerLabel(power) {
   const labels = {
-    rage: 'Rage',
-    zone: 'Zone',
-    lunge: 'Lunge',
-    hunter: 'Hunter',
-    trap: 'Trap',
+    rage: 'Öfke',
+    zone: 'Zehirli İz',
+    lunge: 'Sıçrama',
+    hunter: 'Avcı',
+    trap: 'Sahte Hori',
   };
   return labels[power] || power;
 }
 
 function shadowBuildIntroLines() {
-  if (currentMode.shadowMode !== 'custom') return null;
-  const powers = (labConfig.powers || []).filter(p => ALLOWED_SHADOW_POWERS.includes(p));
-  const orientation = currentMode.orientation === 'landscape' ? 'YATAY' : 'DİKEY';
-  if (!powers.length) {
-    return {
-      title: `GÖLGE KURULUMU · ${orientation}`,
-      body: 'Klasik gölge takibi aktif. Temel kaçış hissini test et.',
-      hint: 'Hori topla, mor gölgenin kırmızı halkasına girme.',
-    };
-  }
-
-  const names = powers.map(shadowPowerLabel).join(' + ');
-  const tips = [];
-  if (powers.includes('rage')) tips.push('Rage gölgeyi zamanla büyütür ve hızlandırır');
-  if (powers.includes('zone')) tips.push('Zone mor iz bırakır; 1 sn kalırsan Mirror olur');
-  if (powers.includes('lunge')) tips.push('Lunge sadece yakındayken saldırır');
-  if (powers.includes('hunter')) tips.push('Hunter hedef yolunu kesmeye çalışır');
-  if (powers.includes('trap')) tips.push('Trap sahte ışıklar bırakır; dash ve hızını cezalandırır');
-
-  return {
-    title: `GÖLGE KURULUMU · ${orientation}`,
-    body: `Seçili kurulum: ${names}`,
-    hint: tips.slice(0, 1).join(' · '),
-  };
+  return null;
 }
 
 function currentModeIntroLines() {
@@ -1133,31 +1006,31 @@ function currentModeIntroLines() {
   }
 
   if (shadowHas('lunge')) return {
-    title: 'LUNGE',
+    title: 'SIÇRAMA',
     body: 'Gölge yakındayken kırmızı saldırı çizgisi hazırlar.',
     hint: 'Uyarıyı görünce dash at veya yön değiştir.',
   };
 
   if (shadowHas('hunter')) return {
-    title: 'HUNTER',
+    title: 'AVCI',
     body: 'Gölge sadece arkadan gelmez, hedef yolunu kesmeye çalışır.',
     hint: 'Dash gölgeyi kısa süre şaşırtabilir.',
   };
 
   if (shadowHas('zone')) return {
-    title: 'ZONE',
+    title: 'ZEHİRLİ İZ',
     body: 'Gölge mor izler bırakır. İzde kalırsan zehir sayacı dolar.',
     hint: 'Sayaç dolarsa kontroller 7 saniye ters döner.',
   };
 
   if (shadowHas('trap')) return {
-    title: 'TRAP',
+    title: 'SAHTE HORİ',
     body: 'Bazı Hori ışıkları sahte olabilir.',
-    hint: 'Trap dash kilitler ve hızını düşürür.',
+    hint: 'Sahte Hori atılmayı kilitler ve hızını düşürür.',
   };
 
   return {
-    title: 'EAT THE SHADOW',
+    title: 'GÖLGEYİ YE',
     body: 'Hori topla.',
     hint: 'Mor gölgenin kırmızı halkasına girme.',
   };
@@ -1176,28 +1049,28 @@ function activeShadowPowerList() {
 function shadowPowerDetail(power) {
   const details = {
     rage: {
-      name: 'Shadow Rage',
+      name: 'Gölge Öfkesi',
       desc: 'Gölge zamanla büyür, hızlanır ve temas alanı daha tehlikeli olur.',
       tactic: 'Düz kaçmak yerine geniş dönüş yap. Hedefe giderken gölgeyi mapin boş tarafına çek.',
     },
     zone: {
-      name: 'Shadow Zone',
-      desc: 'Gölge geçtiği yerde mor iz bırakır. İzde 1 saniye kalırsan Mirror Controls başlar.',
+      name: 'Zehirli İz',
+      desc: 'Gölge geçtiği yerde mor iz bırakır. İzde 1 saniye kalırsan Ters Kontrol başlar.',
       tactic: 'Mor izi kesip geçme; iz çevresinden rota çiz. Zone içindeysen hemen dışarı çık.',
     },
     lunge: {
-      name: 'Shadow Lunge',
+      name: 'Gölge Sıçraması',
       desc: 'Gölge yakındayken kırmızı uyarı verip ani saldırı hazırlar.',
       tactic: 'Uyarıyı görünce dash at veya 90 derece yön değiştir. Uzakken boşa atlamaz.',
     },
     hunter: {
-      name: 'Shadow Hunter',
+      name: 'Avcı Gölge',
       desc: 'Gölge sadece arkadan gelmez; hedefe giden yolunu kesmeye çalışır.',
       tactic: 'Hori’ye düz gitme. Kısa fake rota çiz, sonra dash ile asıl hedefe dön.',
     },
     trap: {
-      name: 'Shadow Trap',
-      desc: 'Haritada gerçek ışık gibi görünen sahte ışıklar bırakır. Trap dash kilitler ve hızını düşürür.',
+      name: 'Sahte Hori',
+      desc: 'Haritada gerçek ışık gibi görünen sahte ışıklar bırakır. Sahte Hori atılmayı kilitler ve hızını düşürür.',
       tactic: 'Işığın 3 saniyelik mor blinkini yakalamaya çalış. Şüpheli ışığa dashsiz girme.',
     },
   };
@@ -1208,11 +1081,7 @@ function updatePauseShadowInfo() {
   if (!pauseShadowInfo) return;
 
   const powers = activeShadowPowerList();
-  const modeName = isEvolutionMode()
-    ? 'Endless Evolution'
-    : currentMode.shadowMode === 'custom'
-      ? 'Shadow Build'
-      : currentMode.name;
+  const modeName = 'Sonsuz Evrim';
 
   if (!powers.length) {
     pauseShadowInfo.innerHTML = `
@@ -1246,12 +1115,12 @@ function updatePauseShadowInfo() {
 }
 
 function evolutionPowerName(level) {
-  if (level === 1) return 'RAGE UNLOCKED';
-  if (level === 2) return 'ZONE UNLOCKED';
-  if (level === 3) return 'LUNGE UNLOCKED';
-  if (level === 4) return 'HUNTER UNLOCKED';
-  if (level === 5) return 'TRAP UNLOCKED';
-  if (level >= 6) return 'NIGHTMARE STACK';
+  if (level === 1) return 'GÖLGE ÖFKESİ AÇILDI';
+  if (level === 2) return 'ZEHİRLİ İZ AÇILDI';
+  if (level === 3) return 'SIÇRAMA AÇILDI';
+  if (level === 4) return 'AVCI GÖLGE AÇILDI';
+  if (level === 5) return 'SAHTE HORİ AÇILDI';
+  if (level >= 6) return 'KABUS EVRESİ';
   return '';
 }
 
@@ -1262,7 +1131,7 @@ function updateEvolutionUnlocks() {
     GAME.evolutionLevel = level;
     GAME.evolutionTitle = evolutionPowerName(level);
     GAME.evolutionBanner = 0;
-    notify(GAME.evolutionTitle || 'SHADOW EVOLVED', `Evolution Level ${GAME.evolutionLevel} · Güçler birlikte aktif`, '#ff2d55', 118, 5);
+    notify(GAME.evolutionTitle || 'GÖLGE EVRİMLEŞTİ', `Evrim Seviyesi ${GAME.evolutionLevel} · Güçler birlikte aktif`, '#ff2d55', 118, 5);
     GAME.shake = Math.max(GAME.shake, 11);
     GAME.flash = Math.max(GAME.flash, 0.38);
     createBurst(player.x, player.y, '#ff2d55', 34);
@@ -1272,11 +1141,10 @@ function updateEvolutionUnlocks() {
 }
 
 function calculateRageLevel(score) {
-  if (isEvolutionMode() && hasEvolutionPower('rage')) {
+  if (GAME.mockTest) return 4;
+  if (hasEvolutionPower('rage')) {
     return Math.min(4, Math.floor((score - 10) / 18) + 1);
   }
-  if (currentMode.shadowMode === 'rage') return Math.min(6, Math.floor(score / 5));
-  if (currentMode.shadowMode === 'custom' && labConfig.powers.includes('rage')) return Math.min(6, Math.floor(score / 5));
   return 0;
 }
 
@@ -1293,7 +1161,7 @@ function applyShadowDifficulty() {
     shadow.dangerDistance = Math.min(DANGER_RAGE_MAX_DISTANCE, DANGER_BASE_DISTANCE + rage * 1.9 * rageSoft);
     if (rage > previous) {
       GAME.rageBanner = 0;
-      notify(`SHADOW RAGE ${GAME.rageLevel}`, 'Gölge büyür ve hızlanır', '#ff2d55', 82, 3);
+      notify(`GÖLGE ÖFKESİ ${GAME.rageLevel}`, 'Gölge büyür ve hızlanır', '#ff2d55', 82, 3);
       GAME.shake = Math.max(GAME.shake, 9);
       GAME.flash = Math.max(GAME.flash, 0.34);
       createBurst(player.x, player.y, '#ff2d55', 28);
@@ -1305,16 +1173,6 @@ function applyShadowDifficulty() {
     shadow.r = Math.min(SHADOW_LUNGE_MAX_RADIUS, SHADOW_BASE_RADIUS + GAME.score * 0.13);
     shadow.dangerDistance = DANGER_LUNGE_DISTANCE;
     shadow.lungePower = Math.min(128, 82 + GAME.score * 2.8);
-  } else if (shadowHas('pressure')) {
-    const boost = shadow.pressureBoost || 0;
-    shadow.delay = Math.max(20, 62 - Math.floor(GAME.score * 0.95) - Math.floor(boost * 18));
-    shadow.r = Math.min(SHADOW_PRESSURE_MAX_RADIUS, SHADOW_BASE_RADIUS + GAME.score * 0.11 + boost * 5.5);
-    shadow.dangerDistance = Math.min(DANGER_PRESSURE_MAX_DISTANCE, DANGER_BASE_DISTANCE + boost * 7);
-  } else if (shadowHas('hunt')) {
-    const hunting = GAME.huntTimer > 0 ? 1 : 0;
-    shadow.delay = Math.max(18, 62 - Math.floor(GAME.score * 0.8) - hunting * 24);
-    shadow.r = Math.min(SHADOW_HUNT_MAX_RADIUS, SHADOW_BASE_RADIUS + GAME.score * 0.1 + hunting * 7);
-    shadow.dangerDistance = Math.min(DANGER_HUNT_MAX_DISTANCE, DANGER_BASE_DISTANCE + hunting * 10);
   } else if (shadowHas('hunter')) {
     const focus = GAME.hunterFocus || 0;
     const confused = GAME.hunterConfused > 0 ? 1 : 0;
@@ -1331,7 +1189,6 @@ function applyShadowDifficulty() {
     shadow.dangerDistance = DANGER_BASE_DISTANCE;
   }
   applyEvolutionStackDifficulty();
-  applyCustomStackDifficulty();
 }
 
 function applyEvolutionStackDifficulty() {
@@ -1347,62 +1204,12 @@ function applyEvolutionStackDifficulty() {
   }
 }
 
-function applyCustomStackDifficulty() {
-  if (currentMode.shadowMode !== 'custom') return;
-  const count = labConfig.powers.length;
-  shadow.delay = Math.max(18, shadow.delay - count * 2);
-  shadow.r = Math.min(34, shadow.r + count * 0.8);
-  shadow.dangerDistance = Math.min(42, shadow.dangerDistance + count * 1.1);
-}
-
-
-function updateShadowPressure() {
-  if (!shadowHas('pressure')) {
-    shadow.pressureBoost *= 0.86;
-    shadow.pressureGuard = Math.max(0, shadow.pressureGuard - 1);
-    return;
-  }
-
-  const targetDist = Math.hypot(player.x - target.x, player.y - target.y);
-  const nearTarget = clamp(1 - ((targetDist - 90) / 230), 0, 1);
-  shadow.pressureBoost = shadow.pressureBoost * 0.84 + nearTarget * 0.16;
-
-  if (nearTarget > 0.48 && GAME.score > 0) {
-    shadow.pressureGuard = Math.max(shadow.pressureGuard, 46);
-    GAME.pressurePulse = Math.max(GAME.pressurePulse, nearTarget);
-    if (GAME.pressureBanner <= 0 && GAME.warningTick % 90 === 0) {
-      GAME.pressureBanner = 90;
-      notify('SHADOW PRESSURE', 'Hori çevresi tehlikeli', '#b74cff', 58, 1);
-      beep(260, 0.045, 'sawtooth', 0.018);
-    }
-  } else {
-    shadow.pressureGuard = Math.max(0, shadow.pressureGuard - 1);
-    GAME.pressurePulse *= 0.92;
-  }
-
-  applyShadowDifficulty();
-}
-
-function updateShadowHunt() {
-  if (!shadowHas('hunt')) return;
-  if (GAME.huntTimer > 0) {
-    GAME.huntTimer -= 1;
-    if (GAME.huntTimer % 38 === 0) beep(150, 0.04, 'sawtooth', 0.018);
-    if (GAME.huntTimer <= 0) {
-      GAME.huntTimer = 0;
-      GAME.flash = Math.max(GAME.flash, 0.12);
-    }
-  }
-  applyShadowDifficulty();
-}
-
-function updateShadowHunter(baseHead) {
+function er(baseHead) {
   if (!shadowHas('hunter')) {
     return baseHead;
   }
 
-  // Hunter ilk anda AI gibi davranınca oyuncu başlamadan küçük hedef düzeltmeleri
-  // yapıp yerinde titriyordu. İlk ışık toplanana kadar klasik trail gibi davran.
+  // İlk ışık toplanana kadar klasik trail gibi davran; oyun başlamadan titreme yapmasın.
   if (GAME.score <= 0) {
     shadow.hunterX = baseHead.x;
     shadow.hunterY = baseHead.y;
@@ -1414,6 +1221,7 @@ function updateShadowHunter(baseHead) {
   if (GAME.hunterConfused > 0) GAME.hunterConfused -= 1;
 
   const distToTarget = Math.hypot(player.x - target.x, player.y - target.y);
+  const distToPlayer = Math.hypot(player.x - shadow.hunterX, player.y - shadow.hunterY);
   const focus = clamp(1 - ((distToTarget - 90) / 300), 0, 1);
   GAME.hunterFocus = GAME.hunterFocus * 0.88 + focus * 0.12;
 
@@ -1422,33 +1230,52 @@ function updateShadowHunter(baseHead) {
     beep(190, 0.055, 'sawtooth', 0.022);
   }
 
-  // The Hunter blends your old trail with a predictive cut-off point.
-  const leadX = player.x + player.lastMoveX * (80 + GAME.score * 2.2);
-  const leadY = player.y + player.lastMoveY * (80 + GAME.score * 2.2);
-  const cutX = player.x * 0.55 + target.x * 0.45;
-  const cutY = player.y * 0.55 + target.y * 0.45;
-  const interceptX = leadX * (0.55 - focus * 0.18) + cutX * (0.45 + focus * 0.18);
-  const interceptY = leadY * (0.55 - focus * 0.18) + cutY * (0.45 + focus * 0.18);
+  const moveMag = Math.hypot(player.lastMoveX || 0, player.lastMoveY || 0);
+  const moving = moveMag > 0.12;
 
-  const trailWeight = GAME.hunterConfused > 0 ? 0.88 : 0.44 - focus * 0.18;
-  const aiWeight = 1 - trailWeight;
-  const desiredX = baseHead.x * trailWeight + interceptX * aiWeight;
-  const desiredY = baseHead.y * trailWeight + interceptY * aiWeight;
+  let desiredX;
+  let desiredY;
+
+  if (moving) {
+    // Oyuncu hareket ediyorsa Avcı hâlâ yol keser; fakat hedefe çizgi çizilmediği için
+    // Sahte Hori seviyesi gerçek hedefi ele vermez.
+    const leadX = player.x + player.lastMoveX * (80 + GAME.score * 2.2);
+    const leadY = player.y + player.lastMoveY * (80 + GAME.score * 2.2);
+    const cutX = player.x * 0.55 + target.x * 0.45;
+    const cutY = player.y * 0.55 + target.y * 0.45;
+    const interceptX = leadX * (0.55 - focus * 0.18) + cutX * (0.45 + focus * 0.18);
+    const interceptY = leadY * (0.55 - focus * 0.18) + cutY * (0.45 + focus * 0.18);
+
+    const trailWeight = GAME.hunterConfused > 0 ? 0.88 : 0.44 - focus * 0.18;
+    const aiWeight = 1 - trailWeight;
+    desiredX = baseHead.x * trailWeight + interceptX * aiWeight;
+    desiredY = baseHead.y * trailWeight + interceptY * aiWeight;
+  } else {
+    // Oyuncu duruyorsa Avcı beklemez: doğrudan oyuncuya baskı kurar.
+    // Biraz yan açı eklenir ki düz çizgide donuk görünmesin, ama ana hedef oyuncudur.
+    const angle = Math.atan2(player.y - shadow.hunterY, player.x - shadow.hunterX);
+    const orbit = Math.sin(GAME.time * 0.045) * Math.min(46, 18 + GAME.score * 0.25);
+    desiredX = player.x + Math.cos(angle + Math.PI / 2) * orbit;
+    desiredY = player.y + Math.sin(angle + Math.PI / 2) * orbit;
+    GAME.hunterFocus = Math.max(GAME.hunterFocus, 0.62);
+  }
 
   const dx = desiredX - shadow.hunterX;
   const dy = desiredY - shadow.hunterY;
   const dist = Math.hypot(dx, dy);
 
-  // Çok küçük mesafede sürekli micro-correction titreme yapmasın.
-  if (dist < 3.5) {
-    shadow.hunterVX *= 0.55;
-    shadow.hunterVY *= 0.55;
+  if (dist < 2.2) {
+    shadow.hunterVX *= 0.68;
+    shadow.hunterVY *= 0.68;
   } else {
-    const maxSpeed = (GAME.hunterConfused > 0 ? 2.8 : 4.2 + GAME.score * 0.045 + focus * 2.2);
+    const idlePressure = moving ? 0 : clamp(1 - distToPlayer / 280, 0.25, 1);
+    const maxSpeed = GAME.hunterConfused > 0
+      ? 2.8
+      : 4.2 + GAME.score * 0.045 + focus * 2.2 + (moving ? 0 : 1.35 + idlePressure * 1.15);
     const ax = (dx / dist) * maxSpeed;
     const ay = (dy / dist) * maxSpeed;
-    shadow.hunterVX = shadow.hunterVX * 0.82 + ax * 0.18;
-    shadow.hunterVY = shadow.hunterVY * 0.82 + ay * 0.18;
+    shadow.hunterVX = shadow.hunterVX * 0.80 + ax * 0.20;
+    shadow.hunterVY = shadow.hunterVY * 0.80 + ay * 0.20;
   }
 
   shadow.hunterX = clamp(shadow.hunterX + shadow.hunterVX, shadow.r, world.width - shadow.r);
@@ -1505,7 +1332,7 @@ function updateShadowLunge(baseHead) {
       shadow.lungeStrikeX = source.x + shadow.lungeDirX * shadow.lungePower;
       shadow.lungeStrikeY = source.y + shadow.lungeDirY * shadow.lungePower;
       GAME.lungeBanner = 0;
-      notify('LUNGE', hunterLayerActive ? 'Hunter saldırıyor' : 'Dash at', '#ff2d55', 54, 4);
+      notify('SIÇRAMA', hunterLayerActive ? 'Avcı saldırıyor' : 'Atıl', '#ff2d55', 54, 4);
       GAME.shake = Math.max(GAME.shake, 4);
       GAME.flash = Math.max(GAME.flash, 0.12);
       beep(180, 0.08, 'sawtooth', 0.03);
@@ -1615,7 +1442,7 @@ function updateShadowZones() {
       GAME.zoneDanger = Math.max(GAME.zoneDanger, 0.35 + closeness * 0.65);
 
       // Zone poison stage:
-      // Mor izde 1 saniye kalırsan Mirror Controls tetiklenir.
+      // Mor izde 1 saniye kalırsan Ters Kontrol tetiklenir.
       GAME.zonePoisonTimer = Math.min(ZONE_POISON_FRAMES, GAME.zonePoisonTimer + 1.35 + closeness * 0.75);
       GAME.zonePoisonFlash = Math.max(GAME.zonePoisonFlash, 8);
 
@@ -1626,7 +1453,7 @@ function updateShadowZones() {
 
       if (GAME.zoneWarning <= 0) {
         GAME.zoneWarning = 34;
-        notify('ZONE', 'Mor izden çık', '#b74cff', 42, 3);
+        notify('ZEHİRLİ İZ', 'Mor izden çık', '#b74cff', 42, 3);
         beep(240, 0.04, 'sawtooth', 0.018);
         vibrate(10);
       }
@@ -1667,34 +1494,18 @@ function collectTarget() {
     dropShadowTrap();
   }
 
-  if (shadowHas('hunt') && GAME.score > 0 && GAME.score % 3 === 0) {
-    GAME.huntTimer = 240;
-    GAME.huntLevel += 1;
-    GAME.huntBanner = 0;
-    notify('SHADOW HUNT', 'Kaç! Gölge geçici olarak güçlendi', '#ff2d55', 88, 4);
-    GAME.shake = Math.max(GAME.shake, 10);
-    GAME.flash = Math.max(GAME.flash, 0.38);
-    createBurst(player.x, player.y, '#ff2d55', 34);
-    beep(110, 0.13, 'sawtooth', 0.05);
-    vibrate([30, 20, 55]);
-  }
 
-  if (shadowHas('pressure')) {
-    shadow.pressureGuard = 52;
-    GAME.pressureBanner = 76;
-    notify('SHADOW PRESSURE', 'Hori çevresi baskı altında', '#b74cff', 56, 2);
-  }
 
   if (shadowHas('hunter')) {
     GAME.hunterBanner = 0;
-    notify('HUNTER', 'Gölge Hori yolunu kesiyor', '#ff2d55', 68, 3);
+    notify('AVCI', 'Avcı Gölge Hori yolunu kesiyor', '#ff2d55', 68, 3);
     GAME.hunterFocus = Math.max(GAME.hunterFocus, 0.65);
     createBurst(target.x, target.y, '#b74cff', 14);
   }
 
   if (shadowHas('zone')) {
     GAME.zoneBanner = 0;
-    notify('ZONE', 'Mor iz yerde kalır', '#b74cff', 68, 3);
+    notify('ZEHİRLİ İZ', 'Zehirli iz yerde kalır', '#b74cff', 68, 3);
     createBurst(target.x, target.y, '#8b1cff', 12);
   }
 
@@ -1907,6 +1718,7 @@ document.addEventListener('visibilitychange', () => { if (document.hidden) input
 window.addEventListener('resize', resize);
 
 async function startCurrentMode() {
+  setMode('hori_evolution');
   await activateFullscreenAndOrientation();
   setTimeout(resize, 250);
   resetGame();
@@ -1935,75 +1747,48 @@ function resumeGame() {
   showScreen(null);
 }
 
-function updateShadowLabUI() {
-  document.querySelectorAll('.lab-orientation').forEach(btn => {
-    btn.classList.toggle('selected', btn.dataset.labOrientation === labConfig.orientation);
-  });
 
-  document.querySelectorAll('.lab-power').forEach(inputEl => {
-    inputEl.checked = labConfig.powers.includes(inputEl.value);
-  });
 
-  const ori = labConfig.orientation === 'landscape' ? 'YATAY' : 'DİKEY';
-  const powers = labConfig.powers.length
-    ? labConfig.powers.map(p => p.toUpperCase()).join(' + ')
-    : 'CLASSIC';
-  if (labSummary) labSummary.textContent = `${ori} · ${powers}`;
+
+
+function startMockShadowTest() {
+  setMode('hori_evolution');
+  GAME.mockTest = true;
+  GAME.lastRunWasMock = true;
+  startCurrentMode();
+  GAME.mockCountdown = 180; // 3 saniye
+  GAME.state = 'countdown';
+  resetInput();
 }
 
-document.querySelectorAll('.lab-orientation').forEach(btn => {
-  btn.addEventListener('click', () => {
-    labConfig.orientation = btn.dataset.labOrientation;
-    saveLabConfig();
-    updateLabModeFromConfig();
-    updateShadowLabUI();
-    beep(420, 0.045, 'triangle', 0.02);
-  });
-});
-
-document.querySelectorAll('.lab-power').forEach(inputEl => {
-  inputEl.addEventListener('change', () => {
-    const powers = [...document.querySelectorAll('.lab-power:checked')].map(el => el.value).filter(p => ALLOWED_SHADOW_POWERS.includes(p));
-    labConfig.powers = powers;
-    saveLabConfig();
-    updateLabModeFromConfig();
-    updateShadowLabUI();
-    beep(inputEl.checked ? 540 : 260, 0.04, 'triangle', 0.018);
-  });
-});
-
-if (applyShadowLabBtn) {
-  applyShadowLabBtn.addEventListener('click', () => {
-    updateLabModeFromConfig();
-    setMode('lab_custom');
-    notify('KURULUM HAZIR', labConfig.powers.length ? labConfig.powers.join(' + ').toUpperCase() : 'CLASSIC', '#d7a3ff', 90, 4);
-    beep(680, 0.06, 'triangle', 0.025);
-  });
+function startFinalEvolution() {
+  GAME.mockTest = false;
+  GAME.lastRunWasMock = false;
+  setMode('hori_evolution');
+  startCurrentMode();
 }
 
 
-quickPlayBtn.addEventListener('click', startCurrentMode);
-retryBtn.addEventListener('click', startCurrentMode);
-menuBtn.addEventListener('click', returnToMenu);
-pauseBtn.addEventListener('click', pauseGame);
-resumeBtn.addEventListener('click', resumeGame);
-quitBtn.addEventListener('click', returnToMenu);
-modeMenuBtn.addEventListener('click', () => showScreen(modeMenu));
-settingsMenuBtn.addEventListener('click', () => showScreen(settingsMenu));
+function retryLastRun() {
+  if (GAME.lastRunWasMock) {
+    startMockShadowTest();
+  } else {
+    startFinalEvolution();
+  }
+}
+
+if (retryBtn) retryBtn.addEventListener('click', retryLastRun);
+if (menuBtn) menuBtn.addEventListener('click', returnToMenu);
+if (pauseBtn) pauseBtn.addEventListener('click', pauseGame);
+if (resumeBtn) resumeBtn.addEventListener('click', resumeGame);
+if (quitBtn) quitBtn.addEventListener('click', returnToMenu);
 if (marketMenuBtn) marketMenuBtn.addEventListener('click', () => {
   updateEconomyUI();
   showScreen(marketMenu);
 });
-backFromModes.addEventListener('click', () => showScreen(mainMenu));
-backFromSettings.addEventListener('click', () => showScreen(mainMenu));
+if (backFromSettings) backFromSettings.addEventListener('click', () => showScreen(mainMenu));
 if (backFromMarket) backFromMarket.addEventListener('click', () => showScreen(mainMenu));
 
-document.querySelectorAll('.mode-card').forEach(btn => {
-  btn.addEventListener('click', () => {
-    setMode(btn.dataset.mode);
-    beep(520, 0.055, 'triangle', 0.025);
-  });
-});
 
 soundToggle.addEventListener('click', () => {
   settings.sound = !settings.sound;
@@ -2056,12 +1841,19 @@ if (pauseVibrationToggle) {
 
 
 function update() {
+  if (GAME.state === 'countdown') {
+    GAME.time += 1;
+    GAME.mockCountdown -= 1;
+    if (GAME.mockCountdown <= 0) {
+      GAME.mockCountdown = 0;
+      GAME.state = 'playing';
+    }
+    return;
+  }
   GAME.time += 1;
   if (GAME.tutorialTimer > 0 && GAME.state === 'playing') GAME.tutorialTimer -= 1;
   if (GAME.rageBanner > 0 && GAME.state === 'playing') GAME.rageBanner -= 1;
   if (GAME.lungeBanner > 0 && GAME.state === 'playing') GAME.lungeBanner -= 1;
-  if (GAME.pressureBanner > 0 && GAME.state === 'playing') GAME.pressureBanner -= 1;
-  if (GAME.huntBanner > 0 && GAME.state === 'playing') GAME.huntBanner -= 1;
   if (GAME.hunterBanner > 0 && GAME.state === 'playing') GAME.hunterBanner -= 1;
   if (GAME.zoneBanner > 0 && GAME.state === 'playing') GAME.zoneBanner -= 1;
   if (GAME.zonePoisonFlash > 0 && GAME.state === 'playing') GAME.zonePoisonFlash -= 1;
@@ -2121,8 +1913,6 @@ function update() {
     player.y = clamp(player.y, player.r, world.height - player.r);
     updateCamera();
     ensureTargetVisible();
-    updateShadowPressure();
-    updateShadowHunt();
 
     if (player.dashCooldown > 0) player.dashCooldown -= 1;
     if (player.shadowTrailLock > 0) player.shadowTrailLock -= 1;
@@ -2135,7 +1925,7 @@ function update() {
       dashBtn.classList.toggle('cooldown', player.dashCooldown > 0 || GAME.dashLockTimer > 0);
       dashBtn.classList.toggle('locked', GAME.dashLockTimer > 0);
       const label = dashBtn.querySelector('span');
-      if (label) label.textContent = GAME.dashLockTimer > 0 ? `${Math.ceil(GAME.dashLockTimer / 60)}s` : 'DASH';
+      if (label) label.textContent = GAME.dashLockTimer > 0 ? `${Math.ceil(GAME.dashLockTimer / 60)}s` : 'ATIL';
     }
 
     // Dash is a player escape move. The shadow must NOT copy the instant dash.
@@ -2171,7 +1961,7 @@ function update() {
     const shadowIndex = Math.max(0, shadow.points.length - shadow.delay);
     const baseShadowHead = shadow.points[shadowIndex];
     let shadowHead = updateShadowLunge(baseShadowHead);
-    shadowHead = updateShadowHunter(shadowHead);
+    shadowHead = er(shadowHead);
     addShadowZone(shadowHead.x, shadowHead.y, 1);
     updateShadowZones();
 
@@ -2196,10 +1986,8 @@ function update() {
     }
     const dangerLimit = shadow.dangerDistance + shadow.r * 0.2;
     if (currentMode.polish && GAME.score > 0) {
-      const warningRange = shadowHas('hunt') && GAME.huntTimer > 0 ? 118 : 78;
+      const warningRange = 78;
       GAME.nearDanger = Math.max(0, Math.min(1, 1 - ((dangerDist - dangerLimit) / warningRange)));
-      if (shadowHas('pressure')) GAME.nearDanger = Math.max(GAME.nearDanger, (shadow.pressureBoost || 0) * 0.34);
-      if (shadowHas('hunt') && GAME.huntTimer > 0) GAME.nearDanger = Math.max(GAME.nearDanger, 0.18);
       if (shadowHas('zone')) GAME.nearDanger = Math.max(GAME.nearDanger, GAME.zoneDanger || 0);
       if (GAME.nearDanger > 0.72) {
         GAME.warningTick += 1;
@@ -2213,17 +2001,13 @@ function update() {
     }
     if (GAME.score > 0 && player.invuln <= 0 && dangerDist < dangerLimit) {
       const reason = shadowHas('lunge')
-        ? 'Shadow Lunge saldırısına yakalandın. Kırmızı çizgi/strike görünce dash at veya yön değiştir.'
-        : shadowHas('pressure')
-          ? 'Shadow Pressure aktifken hedefe fazla düz gittin. Gölge Hori yolunu baskılıyor.'
-          : shadowHas('hunt')
-            ? 'Shadow Hunt sırasında gölge hızlanır ve ölüm alanı büyür. Hunt bitene kadar kaç.'
-            : shadowHas('hunter')
-              ? 'Shadow Hunter yolunu kesti. Hori’ye düz gitme; dash ile gölgeyi şaşırtıp rota değiştir.'
+        ? 'Gölge Sıçraması’na yakalandın. Kırmızı saldırı çizgisini görünce atıl veya yön değiştir.'
+        : shadowHas('hunter')
+          ? 'Avcı Gölge yolunu kesti. Hori’ye düz gitme; atılma ile gölgeyi şaşırtıp rota değiştir.'
               : shadowHas('zone')
-                ? 'Shadow Zone önce 1 saniyelik zehir sayacı doldurur; dolarsa kontroller ters döner.'
+                ? 'Zehirli İz önce 1 saniyelik sayaç doldurur; dolarsa kontroller ters döner.'
                 : isEvolutionMode()
-                  ? 'Endless Evolution modunda gölge güçleri birleşir. Aktif güçlere göre rotanı sürekli değiştir.'
+                  ? 'Sonsuz Evrim modunda gölge güçleri birleşir. Aktif güçlere göre rotanı sürekli değiştir.'
                   : currentMode.polish
               ? 'Mor gölgenin kırmızı ölüm halkasına girdin. Gölge senin eski rotanı takip eder.'
               : 'Mor gölge sana temas etti. Kendi eski rotana çok yaklaştın.';
@@ -2418,7 +2202,7 @@ function drawTrapSlowHud() {
   ctx.fillStyle = '#d7a3ff';
   ctx.font = '900 10px Inter, Arial, sans-serif';
   ctx.textAlign = 'left';
-  ctx.fillText(`TRAP SLOW x${stacks}`, bx + 10, by + 15);
+  ctx.fillText(`YAVAŞLAMA x${stacks}`, bx + 10, by + 15);
 
   ctx.fillStyle = '#ffffff';
   ctx.font = '900 13px Inter, Arial, sans-serif';
@@ -2574,18 +2358,16 @@ function render() {
       ctx.arc(endX, endY, shadow.r + (shadow.lungeAttack > 0 ? 18 : 13), 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
-      drawCenteredLabel(shadow.lungeAttack > 0 ? 'STRIKE' : 'LUNGE', startX, startY - shadow.r - 22, 0.85, 12);
+      drawCenteredLabel(shadow.lungeAttack > 0 ? 'SALDIRI' : 'SIÇRAMA', startX, startY - shadow.r - 22, 0.85, 12);
     }
 
     const rage = shadow.rageLevel || 0;
     const lungeActive = shadowHas('lunge') && (shadow.lungeCharge > 0 || shadow.lungeAttack > 0);
-    const pressureActive = shadowHas('pressure') && (shadow.pressureBoost || 0) > 0.3;
-    const huntActive = shadowHas('hunt') && GAME.huntTimer > 0;
     const hunterActive = shadowHas('hunter');
     const hunterConfused = hunterActive && GAME.hunterConfused > 0;
-    const shadowOuter = shadowHas('rage') && rage > 0 ? '#ff2d55' : lungeActive ? '#ff2d55' : huntActive ? '#ff003c' : hunterConfused ? '#2dd7ff' : hunterActive ? '#ff2d55' : pressureActive ? '#b74cff' : '#8b1cff';
-    const shadowInner = shadowHas('rage') && rage > 0 ? '#160006' : lungeActive || huntActive || hunterActive ? '#1b0008' : pressureActive ? '#16001f' : '#050008';
-    drawGlowCircle(h.x, h.y, shadow.r + Math.sin(GAME.time * 0.18) * (2 + rage * 0.25 + (huntActive ? 2.5 : 0) + (hunterActive ? GAME.hunterFocus * 3 : 0)), shadowOuter, 0.82);
+    const shadowOuter = shadowHas('rage') && rage > 0 ? '#ff2d55' : lungeActive ? '#ff2d55' : hunterConfused ? '#2dd7ff' : hunterActive ? '#ff2d55' : '#8b1cff';
+    const shadowInner = shadowHas('rage') && rage > 0 ? '#160006' : lungeActive || hunterActive ? '#1b0008' : '#050008';
+    drawGlowCircle(h.x, h.y, shadow.r + Math.sin(GAME.time * 0.18) * (2 + rage * 0.25 + (hunterActive ? GAME.hunterFocus * 3 : 0)), shadowOuter, 0.82);
     drawGlowCircle(h.x, h.y, shadow.r * 0.45, shadowInner, 1);
     if (shadowHas('hunter')) {
       ctx.save();
@@ -2606,63 +2388,14 @@ function render() {
     if (currentMode.polish && GAME.nearDanger > 0.55) {
       drawCenteredLabel('TEHLİKE', h.x, h.y - shadow.r - 19, GAME.nearDanger, 12);
     }
-    if (shadowHas('rage') && (shadow.rageLevel || 0) > 0) {
-      drawCenteredLabel(`RAGE ${shadow.rageLevel}`, h.x, h.y + shadow.r + 19, 0.7, 11);
-    }
+    // Öfke seviyesi artık gölgenin altında değil, alt durum barında gösteriliyor.
     if (shadowHas('lunge') && shadow.lungeAttack > 0) {
-      drawCenteredLabel(shadowHas('hunter') ? 'STRIKE' : 'ATTACK', h.x, h.y + shadow.r + 19, 0.8, 11);
+      drawCenteredLabel(shadowHas('hunter') ? 'SALDIRI' : 'SALDIRI', h.x, h.y + shadow.r + 19, 0.8, 11);
     }
-    if (shadowHas('hunt') && GAME.huntTimer > 0) {
-      drawCenteredLabel('HUNT', h.x, h.y + shadow.r + 19, 0.78, 11);
-    }
-    if (shadowHas('hunter')) {
-      drawCenteredLabel(GAME.hunterConfused > 0 ? 'CONFUSED' : 'HUNTER', h.x, h.y + shadow.r + 19, 0.76, 11);
-    }
+    // Avcı etiketi artık gölgenin altında değil, alt durum barında gösteriliyor.
   }
 
-  if (GAME.state !== 'over' && shadowHas('pressure') && (shadow.pressureGuard > 0 || shadow.pressureBoost > 0.18)) {
-    const boost = Math.max(shadow.pressureBoost, shadow.pressureGuard > 0 ? 0.55 : 0);
-    const guardR = shadow.pressureGuardRadius + Math.sin(GAME.time * 0.16) * 5;
-    ctx.save();
-    ctx.globalAlpha = 0.16 + boost * 0.16;
-    ctx.strokeStyle = '#b74cff';
-    ctx.lineWidth = 3;
-    ctx.setLineDash([10, 8]);
-    ctx.beginPath();
-    ctx.arc(target.x, target.y, guardR, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = 'rgba(139,28,255,0.045)';
-    ctx.beginPath();
-    ctx.arc(target.x, target.y, guardR, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-
-    if (boost > 0.45) {
-      drawCenteredLabel('PRESSURE', target.x, target.y - guardR - 16, 0.7, 11);
-    }
-  }
-
-  if (GAME.state !== 'over' && shadowHas('hunter') && GAME.score > 0) {
-    const focus = GAME.hunterFocus || 0;
-    const cutX = player.x * 0.55 + target.x * 0.45;
-    const cutY = player.y * 0.55 + target.y * 0.45;
-    ctx.save();
-    ctx.globalAlpha = 0.10 + focus * 0.22;
-    ctx.strokeStyle = GAME.hunterConfused > 0 ? '#2dd7ff' : '#ff2d55';
-    ctx.lineWidth = 3;
-    ctx.setLineDash([12, 9]);
-    ctx.beginPath();
-    ctx.moveTo(shadow.hunterX, shadow.hunterY);
-    ctx.lineTo(cutX, cutY);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = GAME.hunterConfused > 0 ? 'rgba(45,215,255,0.11)' : 'rgba(255,45,85,0.10)';
-    ctx.beginPath();
-    ctx.arc(cutX, cutY, 24 + focus * 22, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  }
+    // Avcı hedef çizgisi kaldırıldı: Sahte Hori gerçek hedefi ele vermesin.
 
   if (shadowTraps.length > 0) {
     for (const trap of shadowTraps) {
@@ -2699,7 +2432,7 @@ function render() {
       ctx.setLineDash([]);
       ctx.restore();
       if (Math.sin(GAME.time * 0.28) > 0.35) {
-        drawCenteredLabel('TRAP?', target.x, target.y - 25, 0.75, 10);
+        drawCenteredLabel('SAHTE?', target.x, target.y - 25, 0.75, 10);
       }
     }
     if (currentMode.polish && GAME.tutorialTimer > 0) {
@@ -2749,7 +2482,7 @@ function render() {
     ctx.fillStyle = '#d7a3ff';
     ctx.font = '900 14px Inter, Arial, sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('ZONE POISON', width / 2, boxY + 20);
+    ctx.fillText('ZEHİRLİ İZ', width / 2, boxY + 20);
 
     ctx.fillStyle = '#ffffff';
     ctx.font = '900 12px Inter, Arial, sans-serif';
@@ -2825,19 +2558,19 @@ function render() {
     const lines = currentModeIntroLines();
     ctx.save();
     ctx.globalAlpha = a;
-    const boxW = Math.min(width - 34, currentMode.shadowMode === 'custom' ? 500 : 440);
-    const boxH = currentMode.shadowMode === 'custom' ? 108 : 88;
+    const boxW = Math.min(width - 34, 440);
+    const boxH = 88;
     const x = width / 2 - boxW / 2;
     const y = Math.max(78, height * 0.105);
     ctx.fillStyle = 'rgba(6,8,18,0.76)';
-    ctx.strokeStyle = currentMode.shadowMode === 'custom' ? 'rgba(215,163,255,0.36)' : 'rgba(255,255,255,0.12)';
+    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
     ctx.lineWidth = 1.2;
     ctx.beginPath();
     ctx.roundRect(x, y, boxW, boxH, 22);
     ctx.fill();
     ctx.stroke();
 
-    ctx.fillStyle = currentMode.shadowMode === 'custom' ? '#d7a3ff' : '#ffe15c';
+    ctx.fillStyle = '#ffe15c';
     ctx.font = '900 15px Inter, Arial, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(lines.title, width / 2, y + 28);
@@ -2855,7 +2588,7 @@ function render() {
       ctx.fillText(parts[0], width / 2, y + 76);
       ctx.fillText(parts.slice(1).join(' · '), width / 2, y + 92);
     } else {
-      ctx.fillText(hint, width / 2, y + (currentMode.shadowMode === 'custom' ? 82 : 74));
+      ctx.fillText(hint, width / 2, y + (74));
     }
     ctx.restore();
   }
@@ -2884,7 +2617,7 @@ function render() {
     ctx.fillStyle = '#d7a3ff';
     ctx.font = '900 12px Inter, Arial, sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText(`DASH KİLİTLİ · ${secondsLeft}s`, width / 2, boxY + 19);
+    ctx.fillText(`ATILMA KİLİTLİ · ${secondsLeft}s`, width / 2, boxY + 19);
 
     ctx.fillStyle = 'rgba(255,255,255,0.12)';
     ctx.beginPath();
@@ -2898,13 +2631,14 @@ function render() {
     ctx.restore();
   }
 
-  if ((isEvolutionMode() || currentMode.shadowMode === 'custom') && GAME.state === 'playing') {
+  if (isEvolutionMode() && GAME.state === 'playing') {
     const powers = [];
-    if (shadowHas('rage')) powers.push('RAGE');
-    if (shadowHas('zone')) powers.push('ZONE');
-    if (shadowHas('lunge')) powers.push('LUNGE');
-    if (shadowHas('hunter')) powers.push('HUNTER');
-    if (shadowHas('trap')) powers.push('TRAP');
+    if (GAME.mockTest) powers.push('MOCK TEST');
+    if (shadowHas('rage')) powers.push(`ÖFKE ${shadow.rageLevel || 1}`);
+    if (shadowHas('zone')) powers.push('ZEHİRLİ İZ');
+    if (shadowHas('lunge')) powers.push('SIÇRAMA');
+    if (shadowHas('hunter')) powers.push(GAME.hunterConfused > 0 ? 'AVCI ŞAŞKIN' : 'AVCI GÖLGE');
+    if (shadowHas('trap')) powers.push('SAHTE HORİ');
     if (powers.length) {
       ctx.save();
       ctx.globalAlpha = 0.86;
@@ -2935,6 +2669,8 @@ function render() {
   }
 
   ctx.restore();
+
+  drawMockCountdownOverlay();
 }
 
 function loop() {
@@ -2943,10 +2679,36 @@ function loop() {
   requestAnimationFrame(loop);
 }
 
-updateShadowLabUI();
-setMode(currentMode.id);
+setMode('hori_evolution');
 updateSettingsUI();
 updateEconomyUI();
 resize();
 showScreen(mainMenu);
 loop();
+
+
+try { bindFinalCleanMenuButtons(); } catch (e) {}
+try { document.addEventListener('DOMContentLoaded', bindFinalCleanMenuButtons); } catch (e) {}
+try { window.addEventListener('load', bindFinalCleanMenuButtons); } catch (e) {}
+
+
+
+
+function bindFinalMenuButtons() {
+  if (quickPlayBtn) quickPlayBtn.onclick = startFinalEvolution;
+  if (marketMenuBtn) marketMenuBtn.onclick = () => {
+    updateEconomyUI();
+    renderMarket();
+    showScreen(marketMenu);
+  };
+  if (settingsMenuBtn) settingsMenuBtn.onclick = () => {
+    updateSettingsUI();
+    showScreen(settingsMenu);
+  };
+  if (mockTestBtn) mockTestBtn.onclick = startMockShadowTest;
+}
+
+
+try { bindFinalMenuButtons(); } catch (e) { console.error('menu bind failed', e); }
+try { document.addEventListener('DOMContentLoaded', bindFinalMenuButtons); } catch (e) {}
+try { window.addEventListener('load', bindFinalMenuButtons); } catch (e) {}
